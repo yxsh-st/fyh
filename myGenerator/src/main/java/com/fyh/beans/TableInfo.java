@@ -1,6 +1,7 @@
 package com.fyh.beans;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 数据库表信息
@@ -120,6 +121,11 @@ public class TableInfo {
      * 表注释
      */
     private String tableComment;
+    
+    /**
+     * 列信息
+     */
+    private List<ColumnInfo> columns;
 
     /**
      * @return 表目录
@@ -432,6 +438,20 @@ public class TableInfo {
      */
     public void setTableComment(String tableComment) {
         this.tableComment = tableComment;
+    }
+
+    /**
+     * @return 列信息
+     */
+    public List<ColumnInfo> getColumns() {
+        return columns;
+    }
+
+    /**
+     * @param columns 列信息
+     */
+    public void setColumns(List<ColumnInfo> columns) {
+        this.columns = columns;
     }
 
 }

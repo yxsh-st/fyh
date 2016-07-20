@@ -77,6 +77,10 @@ public class DBUtils {
      */
     public static List<TableInfo> getTableInfos(String schemaPattern, String tableNames)
             throws Exception {
+        if (StringUtils.isEmpty(schemaPattern)) {
+            System.err.println("schemaPattern 不能为空");
+            System.exit(1);
+        }
         List<TableInfo> tables = new ArrayList<>();
         conn = getConnection();
         PreparedStatement ps = null;
@@ -124,6 +128,10 @@ public class DBUtils {
             closeQuietly(ps);
             closeQuietly(rs);
         }
+        for (TableInfo table : tables) {
+            List<ColumnInfo> columns = getColumnInfos(schemaPattern, table.getTableName());
+            table.setColumns(columns);
+        }
         return tables;
     }
     
@@ -135,6 +143,9 @@ public class DBUtils {
      * @throws Exception
      */
     public static List<ColumnInfo> getColumnInfos(String schemaPattern, String tableName) throws Exception {
+        if (StringUtils.isEmpty(schemaPattern) || StringUtils.isEmpty(tableName)) {
+            return new ArrayList<>();
+        }
         List<ColumnInfo> infos = new ArrayList<>();
         conn = getConnection();
         PreparedStatement ps = null;
@@ -171,6 +182,9 @@ public class DBUtils {
             }
         } catch (Exception e) {
             System.out.println("获取列数据失败：" + tableName);
+        } finally {
+            closeQuietly(ps);
+            closeQuietly(rs);
         }
         return infos;
     }
